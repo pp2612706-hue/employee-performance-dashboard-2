@@ -1,0 +1,578 @@
+{
+  "name": "My workflow 5",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "15JGsUhf4IehsMVqwdBGrEDFdZYmBtDQ3eHUWdszquSk",
+          "mode": "list",
+          "cachedResultName": "PERFORMANCE OF EMPLOYEE",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15JGsUhf4IehsMVqwdBGrEDFdZYmBtDQ3eHUWdszquSk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 173709886,
+          "mode": "list",
+          "cachedResultName": "Form Responses 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15JGsUhf4IehsMVqwdBGrEDFdZYmBtDQ3eHUWdszquSk/edit#gid=173709886"
+        },
+        "includeInOutput": "both",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        496
+      ],
+      "id": "9f1b9a77-f399-46fd-a84f-f35b4e70691a",
+      "name": "Google Sheets Trigger",
+      "alwaysOutputData": true,
+      "retryOnFail": true,
+      "maxTries": 5,
+      "notesInFlow": true,
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "hsf1WfCSVCWpyaVH",
+          "name": "Google Sheets Trigger account 10"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "loose"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.current['PFORMANCE CATEGORY'] }}",
+                    "rightValue": "HIGH PERFORMANCE",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "HIGH"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "loose"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.current['PFORMANCE CATEGORY'] }}",
+                    "rightValue": "MEDIUM",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "MEDIUM"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "loose"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.current['PFORMANCE CATEGORY'] }}",
+                    "rightValue": "IMPROVE",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "NEED TO IMPROVE"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a2532c84-5647-48ea-b64d-10c87e8e790e",
+      "name": "Route by Performance Category",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        224,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "NAME",
+              "value": "={{ $json.current.NAME }}",
+              "type": "string"
+            },
+            {
+              "id": "id-2",
+              "name": "EMAIL",
+              "value": "={{ $json.current.EMAIL }}",
+              "type": "string"
+            },
+            {
+              "id": "id-3",
+              "name": "DEPARTMENTS",
+              "value": "={{ $json.current.DEPARTMENTS }}",
+              "type": "string"
+            },
+            {
+              "id": "id-4",
+              "name": "PERFORMANCE_CATEGORY",
+              "value": "={{ $json.current['PFORMANCE CATEGORY'] }}",
+              "type": "string"
+            },
+            {
+              "id": "id-5",
+              "name": "OVERALL_RATING",
+              "value": "={{ $json.current['OVERALL PERFORMANCE RATING [1=POOR  5= EXCELLENT]'] }}",
+              "type": "number"
+            },
+            {
+              "id": "id-6",
+              "name": "QUALITY_OF_WORK",
+              "value": "={{ $json.current['QUALITY OF WORK [1=POOR   5= EXCELLENT]'] }}",
+              "type": "number"
+            },
+            {
+              "id": "id-7",
+              "name": "PUNCTUALITY",
+              "value": "={{ $json.current['  Punctuality   '] }}",
+              "type": "string"
+            },
+            {
+              "id": "id-8",
+              "name": "CHALLENGES",
+              "value": "={{ $json.current['  Any Challenges faced?  '] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "f55eb4a4-f7f0-4e4a-bbe1-b8abf87fcae7",
+      "name": "Prepare High Performance Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        448,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "NAME",
+              "value": "={{ $json.current.NAME }}",
+              "type": "string"
+            },
+            {
+              "id": "id-2",
+              "name": "EMAIL",
+              "value": "={{ $json.current.EMAIL }}",
+              "type": "string"
+            },
+            {
+              "id": "id-3",
+              "name": "DEPARTMENTS",
+              "value": "={{ $json.current.DEPARTMENTS }}",
+              "type": "string"
+            },
+            {
+              "id": "id-4",
+              "name": "PERFORMANCE_CATEGORY",
+              "value": "={{ $json.current['PFORMANCE CATEGORY'] }}",
+              "type": "string"
+            },
+            {
+              "id": "id-5",
+              "name": "OVERALL_RATING",
+              "value": "={{ $json.current['OVERALL PERFORMANCE RATING [1=POOR  5= EXCELLENT]'] }}",
+              "type": "number"
+            },
+            {
+              "id": "id-6",
+              "name": "QUALITY_OF_WORK",
+              "value": "={{ $json.current['QUALITY OF WORK [1=POOR   5= EXCELLENT]'] }}",
+              "type": "number"
+            },
+            {
+              "id": "id-7",
+              "name": "PUNCTUALITY",
+              "value": "={{ $json.current['  Punctuality   '] }}",
+              "type": "string"
+            },
+            {
+              "id": "id-8",
+              "name": "CHALLENGES",
+              "value": "={{ $json.current['  Any Challenges faced?  '] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ac4db74c-cdd9-4e4a-a2e2-59fd3862edd9",
+      "name": "Prepare Medium Performance Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        448,
+        496
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "NAME",
+              "value": "={{ $json.current.NAME }}",
+              "type": "string"
+            },
+            {
+              "id": "id-2",
+              "name": "EMAIL",
+              "value": "={{ $json.current.EMAIL }}",
+              "type": "string"
+            },
+            {
+              "id": "id-3",
+              "name": "DEPARTMENTS",
+              "value": "={{ $json.current.DEPARTMENTS }}",
+              "type": "string"
+            },
+            {
+              "id": "id-4",
+              "name": "PERFORMANCE_CATEGORY",
+              "value": "={{ $json.current['PFORMANCE CATEGORY'] }}",
+              "type": "string"
+            },
+            {
+              "id": "id-5",
+              "name": "OVERALL_RATING",
+              "value": "={{ $json.current['OVERALL PERFORMANCE RATING [1=POOR  5= EXCELLENT]'] }}",
+              "type": "number"
+            },
+            {
+              "id": "id-6",
+              "name": "QUALITY_OF_WORK",
+              "value": "={{ $json.current['QUALITY OF WORK [1=POOR   5= EXCELLENT]'] }}",
+              "type": "number"
+            },
+            {
+              "id": "id-7",
+              "name": "PUNCTUALITY",
+              "value": "={{ $json.current['  Punctuality   '] }}",
+              "type": "string"
+            },
+            {
+              "id": "id-8",
+              "name": "CHALLENGES",
+              "value": "={{ $json.current['  Any Challenges faced?  '] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e664b604-aa03-4712-b866-7fc42a3614eb",
+      "name": "Prepare Need to Improve Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        448,
+        688
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1HDEKi2JZ5XeVnRHDNURGk5SP9jXllRkJVyaNwlJXqA4",
+          "mode": "list",
+          "cachedResultName": "SAVE TO PERFORMANCE REVIEWS SHEET",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1HDEKi2JZ5XeVnRHDNURGk5SP9jXllRkJVyaNwlJXqA4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gid=0",
+          "cachedResultName": "Sheet1"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": null
+        },
+        "options": {}
+      },
+      "id": "731cccfb-afbc-4236-8f9f-32f9efdac8c4",
+      "name": "Save to Performance Reviews Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        672,
+        496
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "3LJIPsJVe7H3C5EJ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "id-1",
+              "leftValue": "={{ $json.OVERALL_RATING }}",
+              "rightValue": "3",
+              "operator": {
+                "type": "number",
+                "operation": "lte"
+              }
+            },
+            {
+              "id": "id-2",
+              "leftValue": "={{ $json.QUALITY_OF_WORK }}",
+              "rightValue": "3",
+              "operator": {
+                "type": "number",
+                "operation": "lte"
+              }
+            },
+            {
+              "id": "id-3",
+              "leftValue": "={{ $json.CHALLENGES }}",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "f51ee004-00c7-4eb4-9845-a44d45f29fa0",
+      "name": "Check if Team Review Required",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        896,
+        496
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "preeti1550.mba25hr@chitkara.edu.in",
+        "subject": "=✅ High Performance Review Saved - {{ $json.NAME }}",
+        "message": "=<h2>✅ High Performance Review Saved</h2><p><strong>Employee:</strong> {{ $json.NAME }}</p><p><strong>Email:</strong> {{ $json.EMAIL }}</p><p><strong>Department:</strong> {{ $json.DEPARTMENTS }}</p><p><strong>Performance Category:</strong> {{ $json.PERFORMANCE_CATEGORY }}</p><p><strong>Overall Rating:</strong> {{ $json.OVERALL_RATING }}/5</p><p><strong>Quality of Work:</strong> {{ $json.QUALITY_OF_WORK }}/5</p><p><strong>Punctuality:</strong> {{ $json.PUNCTUALITY }}</p><hr><p><strong>Status:</strong> ✅ Saved to Performance Reviews database</p><p><em>No team review required - excellent performance!</em></p>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "37b4687b-601b-4ff6-a639-32df70abbb65",
+      "name": "Confirm High Performance Saved",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1120,
+        592
+      ],
+      "webhookId": "88cd6b30-6d85-4722-94e3-d4fb41af6365",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "lipDNW0bZwZTgmIz",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "preeti1550.mba25hr@chitkara.edu.in",
+        "subject": "=⚠️ Team Review Required - {{ $json.NAME }} ({{ $json.PERFORMANCE_CATEGORY }})",
+        "message": "=<h2>⚠️ Performance Review Requires Team Discussion</h2><p><strong>Employee:</strong> {{ $json.NAME }}</p><p><strong>Email:</strong> {{ $json.EMAIL }}</p><p><strong>Department:</strong> {{ $json.DEPARTMENTS }}</p><p><strong>Performance Category:</strong> {{ $json.PERFORMANCE_CATEGORY }}</p><p><strong>Overall Rating:</strong> {{ $json.OVERALL_RATING }}/5</p><p><strong>Quality of Work:</strong> {{ $json.QUALITY_OF_WORK }}/5</p><p><strong>Punctuality:</strong> {{ $json.PUNCTUALITY }}</p><p><strong>Challenges:</strong> {{ $json.CHALLENGES }}</p><hr><p><strong>Action Required:</strong> This employee's performance requires team review and discussion to determine next steps.</p><p><em>Data has been saved to the Performance Reviews database.</em></p>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "100894f9-0053-46b4-8183-0e8ae24bed44",
+      "name": "Notify Performance Management Team",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1120,
+        400
+      ],
+      "webhookId": "7bcd0e40-6305-4cd9-9382-4bb68f3e876b",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "lipDNW0bZwZTgmIz",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Route by Performance Category",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route by Performance Category": {
+      "main": [
+        [
+          {
+            "node": "Prepare High Performance Data",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prepare Medium Performance Data",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prepare Need to Improve Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare High Performance Data": {
+      "main": [
+        [
+          {
+            "node": "Save to Performance Reviews Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Medium Performance Data": {
+      "main": [
+        [
+          {
+            "node": "Save to Performance Reviews Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Need to Improve Data": {
+      "main": [
+        [
+          {
+            "node": "Save to Performance Reviews Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save to Performance Reviews Sheet": {
+      "main": [
+        [
+          {
+            "node": "Check if Team Review Required",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check if Team Review Required": {
+      "main": [
+        [
+          {
+            "node": "Notify Performance Management Team",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Confirm High Performance Saved",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "a5904664-03da-462d-8ffc-0b1c3f4503f8",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "310173b5dbe87243996851560a28481e84e82298a4906a390d5b1d379bf4ec59"
+  },
+  "id": "rnqvgkNpwDPGQlBH",
+  "tags": []
+}
