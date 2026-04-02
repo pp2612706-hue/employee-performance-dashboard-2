@@ -43,6 +43,7 @@ This project provides an automated system that:
 - Department-wise Analysis
 - Performance Category Distribution
 - Interactive Filters
+<img width="1756" height="875" alt="Screenshot 2026-04-01 213404" src="https://github.com/user-attachments/assets/c755c554-b1b5-4b1a-abc6-bdc8bf69009a" />
 
 ---
 
